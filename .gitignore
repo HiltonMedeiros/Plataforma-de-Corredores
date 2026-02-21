@@ -1,0 +1,29 @@
+backend/venv/
+frontend/node_modules/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambientes Virtuais
+venv/
+env/
+ENV/
+.env
+
+# Banco de Dados Local (para vocês não sobrescreverem os dados um do outro)
+db.sqlite3
+*.db
+
+# Arquivos de mídia e uploads (fotos dos comprovantes dos usuários)
+media/
+staticfiles/
+
+# IDEs e Editores
+.vscode/
+.idea/
+
+# Logs e arquivos temporários
+*.log
+.DS_Store (Mac)python --version
