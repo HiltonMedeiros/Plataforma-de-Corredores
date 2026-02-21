@@ -3,3 +3,8 @@ Django==6.0.2
 django-cors-headers==4.9.0
 djangorestframework==3.16.1
 sqlparse==0.5.5
+pillow>=10.0.0
+pytesseract>=0.3.10
+django-pwa>=1.1.0
+psycopg2-binary>=2.9.9  # Caso use PostgreSQL na Hostinger futuramente
+python-dotenv>=1.0.0    # Para segurança de senhas e chaves
