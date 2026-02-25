@@ -37,12 +37,19 @@ class AtividadeAdmin(admin.ModelAdmin):
     rejeitar_atividades.short_description = "Rejeitar selecionadas"
 
     
-    def status_ocr(self, obj):
-        if obj.observacao_auditoria and "ALERTA" in obj.observacao_auditoria:
-            return format_html('<span style="color: #e74c3c; font-weight: bold;">⚠️ Erro</span>')
-        return format_html('<span style="color: #2ecc71;">✅ OK</span>')
-    status_ocr.short_description = 'OCR'
+    # No seu arquivo BayeuxApp/admin.py
 
+    @admin.display(description="Status OCR")
+    def status_ocr(self, obj):
+        # Exemplo de lógica para exibir o status com cor
+        cor = "green" if obj.status_validacao == 'APROVADO' else "orange"
+        
+        # O segredo é passar o valor após a string HTML
+        return format_html(
+            '<span style="color: {}; font-weight: bold;">{}</span>',
+            cor, 
+            obj.status_validacao
+        )
 
 @admin.register(MetaConfig)
 class MetaConfigAdmin(admin.ModelAdmin):

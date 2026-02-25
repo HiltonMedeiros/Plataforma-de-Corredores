@@ -45,7 +45,14 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     # APPS Internos
+    'BayeuxApp',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
