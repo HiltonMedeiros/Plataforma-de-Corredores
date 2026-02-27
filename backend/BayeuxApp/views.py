@@ -1,12 +1,31 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.permissions import AllowAny
+from django.contrib.auth.models import User
+from .serializers import RegisterSerializer
 from .models import Bairro
 from .serializers import RankingBairroSerializer
-
 from django.db.models import Sum
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,) # Qualquer pessoa pode se cadastrar
+    serializer_class = RegisterSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({
+                "mensagem": "Usuário cadastrado com sucesso!",
+                "cpf": user.username,
+                "status": "PENDENTE_DADOS"
+            }, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class RankingAPIView(APIView):
     # Remova restrições de permissão para teste (aberto ao público)

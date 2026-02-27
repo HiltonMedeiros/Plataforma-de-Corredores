@@ -1,6 +1,7 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import RankingAPIView, DashboardUsuarioAPIView
+from BayeuxApp.views import RegisterView
 
 urlpatterns = [
     #http://127.0.0.1:8000/api/login/
@@ -12,4 +13,6 @@ urlpatterns = [
     path('api/ranking/', RankingAPIView.as_view(), name='api-ranking'),
     #http://127.0.0.1:8000/api/dashboard/
     path('api/dashboard/', DashboardUsuarioAPIView.as_view(), name='api-dashboard'),
+    #http://127.0.0.1:8000/api/register/
+    path('api/register/', RegisterView.as_view(), name='auth_register'),
 ]

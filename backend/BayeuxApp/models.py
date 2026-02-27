@@ -9,40 +9,71 @@ class Bairro(models.Model):
     def __str__(self):
         return self.nome
 
-# 2. Cidadão
+# 2. Cidadão (Perfil do Atleta)
 class Perfil(models.Model):
     SEXO_CHOICES = [('MASCULINO', 'Masculino'), ('FEMININO', 'Feminino'), ('OUTRO', 'Outro')]
     PROVEDOR_CHOICES = [('NENHUM', 'Nenhum'), ('STRAVA', 'Strava'), ('GARMIN', 'Garmin'), ('NIKE', 'Nike Run Club')]
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
-    sexo = models.CharField(max_length=15, choices=SEXO_CHOICES)
-    data_nascimento = models.DateField()
-    cpf = models.CharField(max_length=14, unique=True)
-    telefone = models.CharField(max_length=20)
-    bairro = models.ForeignKey(Bairro, on_delete=models.PROTECT)
-    provedor_gps = models.CharField(max_length=20, choices=PROVEDOR_CHOICES, default='NENHUM')
     
+    # Novos estados para o seu fluxo de aprovação
+    STATUS_CONTA = [
+        ('PENDENTE_DADOS', 'Pendente de Dados'),
+        ('AGUARDANDO_VALIDACAO', 'Aguardando Validação de Residência'),
+        ('ATIVO', 'Ativo'),
+        ('REJEITADO', 'Rejeitado'),
+        ('BLOQUEADO', 'Bloqueado'),
+    ]
+    cpf = models.CharField(max_length=14, unique=True, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
+    
+    # Adicionamos null=True e blank=True para permitir o cadastro em etapas
+    sexo = models.CharField(max_length=15, choices=SEXO_CHOICES, null=True, blank=True)
+    data_nascimento = models.DateField(null=True, blank=True)
+    cpf = models.CharField(max_length=14, unique=True, null=True, blank=True)
+    telefone = models.CharField(max_length=20, null=True, blank=True)
+    bairro = models.ForeignKey(Bairro, on_delete=models.PROTECT, null=True, blank=True)
+    
+    # Campo para o upload do comprovante
+    comprovante_residencia = models.FileField(
+        upload_to='comprovantes_residencia/%Y/%m/', 
+        null=True, 
+        blank=True,
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'jpg', 'jpeg', 'png'])]
+    )
+    
+    provedor_gps = models.CharField(max_length=20, choices=PROVEDOR_CHOICES, default='NENHUM')
     termo_responsabilidade = models.BooleanField(default=False)
     aceite_lgpd = models.BooleanField(default=False)
-    status_conta = models.CharField(max_length=20, default='ATIVO')
+    
+    # Status inicial agora é 'PENDENTE_DADOS'
+    status_conta = models.CharField(
+        max_length=25, 
+        choices=STATUS_CONTA, 
+        default='PENDENTE_DADOS'
+    )
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} ({self.bairro.nome})"
-
-# 3. Etapas
+        return f"{self.user.username} - {self.status_conta}"
+    
+# 3. Etapas (Unificada: Dados de Período + Referência de Mês)
 class Etapa(models.Model):
     STATUS_ETAPA = [('PLANEJADO', 'Planejado'), ('EM_ANDAMENTO', 'Em Andamento'), ('FINALIZADO', 'Finalizado')]
     MODALIDADE = [('CAMINHADA', 'Caminhada'), ('CORRIDA', 'Corrida'), ('AMBOS', 'Ambos')]
 
-    name = models.CharField(max_length=255)
+    nome = models.CharField(max_length=255) # Ex: Desafio de Verão / Janeiro 2026
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     modalidade = models.CharField(max_length=20, choices=MODALIDADE)
     status = models.CharField(max_length=20, choices=STATUS_ETAPA, default='PLANEJADO')
+    
+    # Campos para organização do Dashboard
+    mes_referencia = models.IntegerField(help_text="1 para Janeiro, 2 para Fevereiro...")
+    ano_referencia = models.IntegerField(default=2026)
+    ativa = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.name
+        return self.nome
 
 # 4. Metas(BRONZE, PRATA OU OURO)
 class MetaConfig(models.Model):
@@ -56,7 +87,8 @@ class MetaConfig(models.Model):
         ordering = ['distancia_objetivo']
 
     def __str__(self):
-        return f"{self.etapa.name} - {self.titulo} ({self.distancia_objetivo}km)"
+        # Mude de self.etapa.name para self.etapa.nome
+        return f"{self.etapa.nome} - {self.titulo} ({self.distancia_objetivo}km)"
 
 # 5. Atividades
 class Atividade(models.Model):
