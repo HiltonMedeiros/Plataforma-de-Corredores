@@ -26,4 +26,5 @@ staticfiles/
 
 # Logs e arquivos temporários
 *.log
-.DS_Store (Mac)python --version
+.DS_Store (Mac)python --version__pycache__/
+*.pyc

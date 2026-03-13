@@ -1,0 +1,118 @@
+// Mock data for the dashboard
+export const currentUser = {
+  name: "Carlos Oliveira",
+  avatar: null, // will use import
+  neighborhood: "Centro",
+  totalKmMonth: 15.8,
+  goalKm: 21,
+  goalLevel: "Ouro",
+  activeDays: 12,
+  totalActivities: 18,
+  rank: 3,
+};
+
+export const goals = [
+  { level: "Bronze", km: 5, color: "bronze", emoji: "🥉" },
+  { level: "Prata", km: 10, color: "silver", emoji: "🥈" },
+  { level: "Ouro", km: 21, color: "gold", emoji: "🥇" },
+  { level: "Diamante", km: 42, color: "diamond", emoji: "💎" },
+];
+
+export const weeklyData = [
+  { day: "01", km: 0 },
+  { day: "02", km: 3.2 },
+  { day: "03", km: 0 },
+  { day: "04", km: 5.1 },
+  { day: "05", km: 0 },
+  { day: "06", km: 4.3 },
+  { day: "07", km: 0 },
+  { day: "08", km: 0 },
+  { day: "09", km: 2.1 },
+  { day: "10", km: 0 },
+  { day: "11", km: 6.0 },
+  { day: "12", km: 0 },
+  { day: "13", km: 3.8 },
+  { day: "14", km: 0 },
+  { day: "15", km: 0 },
+  { day: "16", km: 4.5 },
+  { day: "17", km: 0 },
+  { day: "18", km: 5.2 },
+  { day: "19", km: 0 },
+  { day: "20", km: 3.1 },
+  { day: "21", km: 0 },
+  { day: "22", km: 2.8 },
+  { day: "23", km: 0 },
+  { day: "24", km: 0 },
+  { day: "25", km: 4.7 },
+  { day: "26", km: 0 },
+  { day: "27", km: 0 },
+  { day: "28", km: 3.5 },
+  { day: "29", km: 0 },
+  { day: "30", km: 0 },
+  { day: "31", km: 0 },
+];
+
+export const activities = [
+  {
+    id: 1,
+    type: "corrida",
+    distance: 5.1,
+    time: "28:42",
+    date: "04/03/2026",
+    status: "aprovado",
+    proof: true,
+  },
+  {
+    id: 2,
+    type: "caminhada",
+    distance: 3.2,
+    time: "38:15",
+    date: "02/03/2026",
+    status: "aprovado",
+    proof: true,
+  },
+  {
+    id: 3,
+    type: "corrida",
+    distance: 6.0,
+    time: "34:10",
+    date: "11/03/2026",
+    status: "aprovado",
+    proof: true,
+  },
+  {
+    id: 4,
+    type: "corrida",
+    distance: 4.3,
+    time: "24:55",
+    date: "06/03/2026",
+    status: "em análise",
+    proof: true,
+  },
+  {
+    id: 5,
+    type: "caminhada",
+    distance: 2.1,
+    time: "26:30",
+    date: "09/03/2026",
+    status: "aprovado",
+    proof: false,
+  },
+  {
+    id: 6,
+    type: "corrida",
+    distance: 4.5,
+    time: "26:18",
+    date: "16/03/2026",
+    status: "em análise",
+    proof: true,
+  },
+];
+
+export const ranking = [
+  { pos: 1, name: "Ana Paula S.", km: 32.4, avatar: "AP", badge: "💎" },
+  { pos: 2, name: "João Marcos R.", km: 28.7, avatar: "JM", badge: "🥇" },
+  { pos: 3, name: "Carlos Oliveira", km: 15.8, avatar: "CO", badge: "🥇", isUser: true },
+  { pos: 4, name: "Fernanda Lima", km: 14.2, avatar: "FL", badge: "🥇" },
+  { pos: 5, name: "Ricardo Santos", km: 12.9, avatar: "RS", badge: "🥈" },
+];
